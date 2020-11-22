@@ -1,7 +1,7 @@
 #include "geometry.h"
 
 
-/* ======================== POSITION ======================== */
+/* ======================== PLACEHOLDER ======================== */
 Placeholder::Placeholder(const int x, const int y) : posX(x), posY(y) {}
 
 int Placeholder::x() { return posX; }
