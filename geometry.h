@@ -23,23 +23,11 @@ class Vector;
 
 
 class Position : public Placeholder {
-	// private:
-		// int posX, posY;
-
 	public:
 		using Placeholder::Placeholder;
-		// Position() = delete;
-		// Position(const int x, const int y);
 		Position(Vector &vector);
 
-		// int x();
-		// int y();
-
-		// Position reflection();
-
 		const Position &origin();
-
-		// bool operator==(Position &other) const;
 
 		Position &operator+=(Vector &vector);
 
@@ -48,21 +36,9 @@ class Position : public Placeholder {
 
 
 class Vector : public Placeholder {
-	// private:
-		// int posX, posY;
-
 	public:
 		using Placeholder::Placeholder;
-		// Vector() = delete;
-		// Vector(const int x, const int y);
 		Vector(Position &pos);
-
-		// int x();
-		// int y();
-
-		// Vector reflection();
-
-		// bool operator==(Vector &other) const;
 
 		Vector &operator+=(const Vector &other);
 
