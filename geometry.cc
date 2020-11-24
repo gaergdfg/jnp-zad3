@@ -2,13 +2,16 @@
 
 
 /* ======================== PLACEHOLDER ======================== */
+
 Placeholder::Placeholder(const int x, const int y) : posX(x), posY(y) {}
 
 int Placeholder::x() { return posX; }
 
 int Placeholder::y() { return posY; }
 
-Placeholder Placeholder::reflection() { return Placeholder(posY, posX); }
+Placeholder Placeholder::reflection() {
+	return Placeholder(posY, posX);
+}
 
 bool Placeholder::operator==(const Placeholder &other) const {
 	return posX == other.posX && posY == other.posY;
@@ -45,6 +48,10 @@ Vector &Vector::operator+=(const Vector &other) {
 	posY += other.posY;
 
 	return *this;
+}
+
+Vector Vector::operator+(const Vector &rhs) {
+	return Vector(*this) += rhs;
 }
 
 Position Vector::operator+(Position &pos) {

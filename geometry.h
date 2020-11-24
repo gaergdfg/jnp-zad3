@@ -8,6 +8,7 @@ class Placeholder {
 	
 	public:
 		Placeholder() = delete;
+
 		Placeholder(const int x, const int y);
 
 		int x();
@@ -25,6 +26,7 @@ class Vector;
 class Position : public Placeholder {
 	public:
 		using Placeholder::Placeholder;
+
 		Position(Vector &vector);
 
 		const Position &origin();
@@ -38,9 +40,12 @@ class Position : public Placeholder {
 class Vector : public Placeholder {
 	public:
 		using Placeholder::Placeholder;
+
 		Vector(Position &pos);
 
 		Vector &operator+=(const Vector &other);
+
+		Vector operator+(const Vector &rhs);
 
 		Position operator+(Position &pos);
 };
