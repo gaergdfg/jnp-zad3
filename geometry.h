@@ -11,10 +11,15 @@ class Placeholder {
 
 		Placeholder(const int x, const int y);
 
-		int x();
-		int y();
+		Placeholder(const Placeholder &other) = default;
+
+		int x() const;
+
+		int y() const;
 
 		Placeholder reflection();
+
+		Placeholder &operator=(const Placeholder &rhs) = default;
 
 		bool operator==(const Placeholder &other) const;
 };
@@ -31,6 +36,8 @@ class Position : public Placeholder {
 
 		const Position &origin();
 
+		Position &operator=(const Vector &rhs) = delete;
+
 		Position &operator+=(Vector &vector);
 
 		Position operator+(Vector &vector);
@@ -42,6 +49,8 @@ class Vector : public Placeholder {
 		using Placeholder::Placeholder;
 
 		Vector(Position &pos);
+
+		Vector &operator=(const Position &rhs) = delete;
 
 		Vector &operator+=(const Vector &other);
 

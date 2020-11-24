@@ -5,9 +5,9 @@
 
 Placeholder::Placeholder(const int x, const int y) : posX(x), posY(y) {}
 
-int Placeholder::x() { return posX; }
+int Placeholder::x() const { return posX; }
 
-int Placeholder::y() { return posY; }
+int Placeholder::y() const { return posY; }
 
 Placeholder Placeholder::reflection() {
 	return Placeholder(posY, posX);
