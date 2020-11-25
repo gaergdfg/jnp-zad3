@@ -43,6 +43,8 @@ class Position : public Placeholder {
 		Position operator+(Vector &vector);
 };
 
+class Rectangle;
+
 
 class Vector : public Placeholder {
 	public:
@@ -56,7 +58,36 @@ class Vector : public Placeholder {
 
 		Vector operator+(const Vector &rhs);
 
+        Rectangle operator+(Rectangle &rec);
+
 		Position operator+(Position &pos);
+};
+
+class Rectangle {
+    protected :
+        int rec_width, rec_height;
+        Position rec_pos;
+
+    public :
+        Rectangle() = delete;
+        Rectangle(const int width, const int height, const Position pos);
+        Rectangle(const int width, const int height);
+
+        int width() const;
+
+		int height() const;
+
+        Position pos() const;
+
+        Rectangle reflection();
+
+        int area();
+
+        bool operator==(const Rectangle &other) const;
+
+        Rectangle &operator+=(Vector &vector);
+
+        Rectangle operator+(Vector &vector);
 };
 
 
