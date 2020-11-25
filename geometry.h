@@ -1,5 +1,7 @@
 #ifndef GEOMETRY_H
 #define GEOMETRY_H
+#include <initializer_list>
+#include <vector>
 
 
 class Placeholder {
@@ -49,6 +51,9 @@ class Position : public Placeholder {
 class Rectangle;
 
 
+class Rectangles;
+
+
 class Vector : public Placeholder {
 	public:
 		using Placeholder::Placeholder;
@@ -63,8 +68,11 @@ class Vector : public Placeholder {
 
         Rectangle operator+(Rectangle &rec);
 
+		Rectangles operator+(Rectangles &recs);
+
 		Position operator+(Position &pos);
 };
+
 
 class Rectangle {
     protected :
@@ -90,9 +98,46 @@ class Rectangle {
 
         bool operator==(const Rectangle &other) const;
 
+		bool operator!=(const Rectangle &other) const;
+
         Rectangle &operator+=(Vector &vector);
 
         Rectangle operator+(Vector &vector);
+
+		friend Rectangle merge_horizontally(const Rectangle &rect1, const Rectangle &rect2);
+
+		friend Rectangle merge_vertically(const Rectangle &rect1, const Rectangle &rect2);
+};
+
+
+class Rectangles {
+	private :
+		std::vector<Rectangle> rectangles;
+
+	public :
+		Rectangles() = default;
+
+		Rectangles(const Rectangles &) = default;
+
+		Rectangles(Rectangles &&) = default;
+
+		Rectangles(std::initializer_list<Rectangle> rectanglesList);
+
+		Rectangles &operator=(const Rectangles &) = default;
+
+		Rectangles &operator=(Rectangles &&) = default;
+
+		Rectangles &operator+=(Vector &vector);
+
+		Rectangles operator+(Vector &vector);
+
+		Rectangle &operator[](const int i);
+
+		bool operator==(const Rectangles &other) const;
+
+		int size() const;
+
+		friend Rectangle merge_all(const Rectangles &recs);
 };
 
 
