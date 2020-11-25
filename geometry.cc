@@ -23,6 +23,8 @@ bool Placeholder::operator==(const Placeholder &other) const {
 
 Position::Position(Vector &vector) : Placeholder(vector.x(), vector.y()) {}
 
+Position::Position(Placeholder &&placeholder) : Placeholder(placeholder) {}
+
 const Position &Position::origin() {
 	const static Position *origin = new Position(0, 0);
 	return *origin;
@@ -66,33 +68,36 @@ Position Vector::operator+(Position &pos) {
 
 /* ======================== RECTANGLE ======================== */
 
-Rectangle::Rectangle(const int width, const int height, const Position pos) : rec_width(width), rec_height(height), rec_pos(pos) {
+Rectangle::Rectangle(const int width, const int height, const Position pos)
+	: recWidth(width), recHeight(height), recPos(pos) {
     assert(width > 0 && height > 0);
 }
-Rectangle::Rectangle(const int width, const int height) : rec_width(width), rec_height(height), rec_pos(Position(0, 0)) {
+
+Rectangle::Rectangle(const int width, const int height)
+	: recWidth(width), recHeight(height), recPos(Position(0, 0)) {
     assert(width > 0 && height > 0);
 }
 
-int Rectangle::width() const { return rec_width; }
+int Rectangle::width() const { return recWidth; }
 
-int Rectangle::height() const { return rec_height; }
+int Rectangle::height() const { return recHeight; }
 
-Position Rectangle::pos() const { return rec_pos; }
+Position Rectangle::pos() const { return recPos; }
 
-/*Rectangle Rectangle::reflection() {
-    return Rectangle(rec_height, rec_width, rec_pos.reflection());
-}*/
+Rectangle Rectangle::reflection() {
+	return Rectangle(recHeight, recWidth, Position(recPos.reflection()));
+}
 
-int Rectangle::area() {
-    return rec_width * rec_height;
+int Rectangle::area() const {
+    return recWidth * recHeight;
 }
 
 bool Rectangle::operator==(const Rectangle &other) const {
-    return rec_width == other.rec_width && rec_height == other.rec_height && rec_pos == other.rec_pos;
+    return recWidth == other.recWidth && recHeight == other.recHeight && recPos == other.recPos;
 }
 
 Rectangle &Rectangle::operator+=(Vector &vector) {
-    rec_pos += vector;
+    recPos += vector;
     return *this;
 }
 
