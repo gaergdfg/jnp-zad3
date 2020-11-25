@@ -10,7 +10,7 @@ int Placeholder::x() const { return posX; }
 
 int Placeholder::y() const { return posY; }
 
-Placeholder Placeholder::reflection() {
+Placeholder Placeholder::reflection() const {
 	return Placeholder(posY, posX);
 }
 
@@ -30,14 +30,14 @@ const Position &Position::origin() {
 	return *origin;
 }
 
-Position &Position::operator+=(Vector &vector) {
-	posX += vector.x();
-	posY += vector.y();
+Position &Position::operator+=(const Vector &vector) {
+	posX += vector.posX;
+	posY += vector.posY;
 
 	return *this;
 }
 
-Position Position::operator+(Vector &vector) {
+Position Position::operator+(const Vector &vector) const {
 	return Position(*this) += vector;
 }
 
@@ -53,19 +53,19 @@ Vector &Vector::operator+=(const Vector &other) {
 	return *this;
 }
 
-Vector Vector::operator+(const Vector &rhs) {
+Vector Vector::operator+(const Vector &rhs) const {
 	return Vector(*this) += rhs;
 }
 
-Position Vector::operator+(Position &pos) {
+Position Vector::operator+(const Position &pos) const {
 	return pos + (*this);
 }
 
-Rectangle Vector::operator+(Rectangle &rec) {
+Rectangle Vector::operator+(const Rectangle &rec) const {
     return rec + (*this);
 }
 
-Rectangles Vector::operator+(Rectangles &recs) {
+Rectangles Vector::operator+(const Rectangles &recs) const {
     return recs + (*this);
 }
 
@@ -88,7 +88,7 @@ int Rectangle::height() const { return recHeight; }
 
 Position Rectangle::pos() const { return recPos; }
 
-Rectangle Rectangle::reflection() {
+Rectangle Rectangle::reflection() const {
 	return Rectangle(recHeight, recWidth, Position(recPos.reflection()));
 }
 
@@ -103,16 +103,23 @@ bool Rectangle::operator==(const Rectangle &other) const {
 		recPos == other.recPos;
 }
 
+// bool Rectangle::operator==(Rectangle &&other) const {
+//     return
+// 		recWidth == other.recWidth &&
+// 		recHeight == other.recHeight &&
+// 		recPos == other.recPos;
+// }
+
 bool Rectangle::operator!=(const Rectangle &other) const {
 	return !(*this == other);
 }
 
-Rectangle &Rectangle::operator+=(Vector &vector) {
+Rectangle &Rectangle::operator+=(const Vector &vector) {
     recPos += vector;
     return *this;
 }
 
-Rectangle Rectangle::operator+(Vector &vector) {
+Rectangle Rectangle::operator+(const Vector &vector) const {
     return Rectangle(*this) += vector;
 }
 
@@ -172,7 +179,7 @@ bool Rectangles::operator==(const Rectangles &other) const {
 	return true;
 }
 
-Rectangles &Rectangles::operator+=(Vector &vector) {
+Rectangles &Rectangles::operator+=(const Vector &vector) {
 	for (size_t i = 0; i < rectangles.size(); i++) {
 		rectangles[i] += vector;
 	}
@@ -180,7 +187,7 @@ Rectangles &Rectangles::operator+=(Vector &vector) {
 	return *this;
 }
 
-Rectangles Rectangles::operator+(Vector &vector) {
+Rectangles Rectangles::operator+(const Vector &vector) const {
 	Rectangles result = Rectangles(*this);
 
     for (size_t i = 0; i < rectangles.size(); i++) {

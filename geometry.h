@@ -19,7 +19,7 @@ class Placeholder {
 
 		int y() const;
 
-		Placeholder reflection();
+		Placeholder reflection() const;
 
 		Placeholder &operator=(const Placeholder &rhs) = default;
 
@@ -38,13 +38,15 @@ class Position : public Placeholder {
 
 		Position(Placeholder &&placeholder);
 
-		const Position &origin();
+		const static Position &origin();
 
 		Position &operator=(const Vector &rhs) = delete;
 
-		Position &operator+=(Vector &vector);
+		Position &operator+=(const Vector &vector);
 
-		Position operator+(Vector &vector);
+		Position operator+(const Vector &vector) const;
+
+		// friend Position Vector::operator+(const Position &pos);
 };
 
 
@@ -64,13 +66,15 @@ class Vector : public Placeholder {
 
 		Vector &operator+=(const Vector &other);
 
-		Vector operator+(const Vector &rhs);
+		Vector operator+(const Vector &rhs) const;
 
-		Position operator+(Position &pos);
+		Position operator+(const Position &pos) const;
 
-        Rectangle operator+(Rectangle &rec);
+        Rectangle operator+(const Rectangle &rec) const;
 
-		Rectangles operator+(Rectangles &recs);
+		Rectangles operator+(const Rectangles &recs) const;
+
+		friend Position &Position::operator+=(const Vector &);
 };
 
 
@@ -92,17 +96,19 @@ class Rectangle {
 
         Position pos() const;
 
-        Rectangle reflection();
+        Rectangle reflection() const;
 
         int area() const;
 
         bool operator==(const Rectangle &other) const;
 
+		// bool operator==(Rectangle &&other) const;
+
 		bool operator!=(const Rectangle &other) const;
 
-        Rectangle &operator+=(Vector &vector);
+        Rectangle &operator+=(const Vector &vector);
 
-        Rectangle operator+(Vector &vector);
+        Rectangle operator+(const Vector &vector) const;
 
 		friend Rectangle merge_horizontally(
 			const Rectangle &rect1,
@@ -135,11 +141,11 @@ class Rectangles {
 
 		bool operator==(const Rectangles &other) const;
 
-		Rectangles &operator+=(Vector &vector);
+		Rectangles &operator+=(const Vector &vector);
 
-		Rectangles operator+(Vector &vector);
+		Rectangles operator+(const Vector &vector) const;
 
-		Rectangle &operator[](const int i);
+		Rectangle &operator[](int i);
 
 		int size() const;
 
