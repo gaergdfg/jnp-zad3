@@ -34,11 +34,13 @@ class Position : public Placeholder {
 	public:
 		using Placeholder::Placeholder;
 
-		Position(Vector &vector);
+		explicit Position(Vector &vector);
 
 		Position(Placeholder &&placeholder);
 
 		const static Position &origin();
+
+		Position &operator=(Vector &rhs) = delete;
 
 		Position &operator=(const Vector &rhs) = delete;
 
@@ -58,7 +60,9 @@ class Vector : public Placeholder {
 	public:
 		using Placeholder::Placeholder;
 
-		Vector(Position &pos);
+		explicit Vector(Position &pos);
+
+		Vector &operator=(Position &rhs) = delete;
 
 		Vector &operator=(const Position &rhs) = delete;
 
@@ -77,12 +81,12 @@ class Vector : public Placeholder {
 
 
 class Rectangle {
-    protected :
+    private:
         int recWidth, recHeight;
 
         Position recPos;
 
-    public :
+    public:
         Rectangle() = delete;
 		
         Rectangle(const int width, const int height, const Position pos);

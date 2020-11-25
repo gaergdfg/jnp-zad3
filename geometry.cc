@@ -133,7 +133,7 @@ bool can_merge_vertically(const Rectangle &rect1, const Rectangle &rect2) {
 	int rightEdge = rect1.pos().x() + rect1.width();
 	int leftEdge = rect2.pos().x();
 
-	if (rightEdge == leftEdge)
+	if (rightEdge != leftEdge)
 		return false;
 
 	int rect1LowerSide = rect1.pos().y();

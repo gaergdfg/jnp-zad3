@@ -1,3 +1,5 @@
+.vscode
+
 pp_test*
 *.o
 test*
