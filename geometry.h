@@ -45,8 +45,6 @@ class Position : public Placeholder {
 		Position &operator+=(const Vector &vector);
 
 		Position operator+(const Vector &vector) const;
-
-		// friend Position Vector::operator+(const Position &pos);
 };
 
 
@@ -81,6 +79,7 @@ class Vector : public Placeholder {
 class Rectangle {
     protected :
         int recWidth, recHeight;
+
         Position recPos;
 
     public :
@@ -102,8 +101,6 @@ class Rectangle {
 
         bool operator==(const Rectangle &other) const;
 
-		// bool operator==(Rectangle &&other) const;
-
 		bool operator!=(const Rectangle &other) const;
 
         Rectangle &operator+=(const Vector &vector);
@@ -123,10 +120,10 @@ class Rectangle {
 
 
 class Rectangles {
-	private :
+	private:
 		std::vector<Rectangle> rectangles;
 
-	public :
+	public:
 		Rectangles() = default;
 
 		Rectangles(const Rectangles &) = default;

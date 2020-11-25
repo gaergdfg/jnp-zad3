@@ -103,13 +103,6 @@ bool Rectangle::operator==(const Rectangle &other) const {
 		recPos == other.recPos;
 }
 
-// bool Rectangle::operator==(Rectangle &&other) const {
-//     return
-// 		recWidth == other.recWidth &&
-// 		recHeight == other.recHeight &&
-// 		recPos == other.recPos;
-// }
-
 bool Rectangle::operator!=(const Rectangle &other) const {
 	return !(*this == other);
 }
@@ -197,7 +190,7 @@ Rectangles Rectangles::operator+(const Vector &vector) const {
 	return result;
 }
 
-Rectangle &Rectangles::operator[](const int i) {
+Rectangle &Rectangles::operator[](int i) {
 	assert(i >= 0 && (size_t)i < rectangles.size());
 
 	return rectangles[i];
