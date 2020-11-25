@@ -150,4 +150,7 @@ class Rectangles {
 };
 
 
+Rectangle merge_all(const Rectangles &recs);
+
+
 #endif /* GEOMETRY_H */
