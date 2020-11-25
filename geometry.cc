@@ -196,6 +196,12 @@ Rectangle &Rectangles::operator[](int i) {
 	return rectangles[i];
 }
 
+const Rectangle &Rectangles::operator[](int i) const {
+	assert(i >= 0 && (size_t)i < rectangles.size());
+
+	return rectangles[i];
+}
+
 size_t Rectangles::size() const {
 	return rectangles.size();
 }
