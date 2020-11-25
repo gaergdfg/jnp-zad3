@@ -144,7 +144,7 @@ class Rectangles {
 
 		Rectangle &operator[](int i);
 
-		int size() const;
+		size_t size() const;
 
 		friend Rectangle merge_all(const Rectangles &recs);
 };

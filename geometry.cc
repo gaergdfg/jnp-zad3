@@ -196,7 +196,7 @@ Rectangle &Rectangles::operator[](int i) {
 	return rectangles[i];
 }
 
-int Rectangles::size() const {
+size_t Rectangles::size() const {
 	return rectangles.size();
 }
 
