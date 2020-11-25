@@ -66,11 +66,11 @@ class Vector : public Placeholder {
 
 		Vector operator+(const Vector &rhs);
 
+		Position operator+(Position &pos);
+
         Rectangle operator+(Rectangle &rec);
 
 		Rectangles operator+(Rectangles &recs);
-
-		Position operator+(Position &pos);
 };
 
 
@@ -104,9 +104,15 @@ class Rectangle {
 
         Rectangle operator+(Vector &vector);
 
-		friend Rectangle merge_horizontally(const Rectangle &rect1, const Rectangle &rect2);
+		friend Rectangle merge_horizontally(
+			const Rectangle &rect1,
+			const Rectangle &rect2
+		);
 
-		friend Rectangle merge_vertically(const Rectangle &rect1, const Rectangle &rect2);
+		friend Rectangle merge_vertically(
+			const Rectangle &rect1,
+			const Rectangle &rect2
+		);
 };
 
 
@@ -127,13 +133,13 @@ class Rectangles {
 
 		Rectangles &operator=(Rectangles &&) = default;
 
+		bool operator==(const Rectangles &other) const;
+
 		Rectangles &operator+=(Vector &vector);
 
 		Rectangles operator+(Vector &vector);
 
 		Rectangle &operator[](const int i);
-
-		bool operator==(const Rectangles &other) const;
 
 		int size() const;
 

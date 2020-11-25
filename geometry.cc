@@ -57,16 +57,16 @@ Vector Vector::operator+(const Vector &rhs) {
 	return Vector(*this) += rhs;
 }
 
+Position Vector::operator+(Position &pos) {
+	return pos + (*this);
+}
+
 Rectangle Vector::operator+(Rectangle &rec) {
     return rec + (*this);
 }
 
 Rectangles Vector::operator+(Rectangles &recs) {
     return recs + (*this);
-}
-
-Position Vector::operator+(Position &pos) {
-	return pos + (*this);
 }
 
 
@@ -97,7 +97,10 @@ int Rectangle::area() const {
 }
 
 bool Rectangle::operator==(const Rectangle &other) const {
-    return recWidth == other.recWidth && recHeight == other.recHeight && recPos == other.recPos;
+    return
+		recWidth == other.recWidth &&
+		recHeight == other.recHeight &&
+		recPos == other.recPos;
 }
 
 bool Rectangle::operator!=(const Rectangle &other) const {
@@ -152,11 +155,10 @@ Rectangle merge_vertically(const Rectangle &rect1, const Rectangle &rect2) {
 }
 
 
-
-
 /* ======================== RECTANGLES ======================== */
 
-Rectangles::Rectangles(std::initializer_list<Rectangle> rectanglesList) : rectangles{rectanglesList} {}
+Rectangles::Rectangles(std::initializer_list<Rectangle> rectanglesList)
+	: rectangles{rectanglesList} {}
 
 bool Rectangles::operator==(const Rectangles &other) const {
 	if (rectangles.size() != other.rectangles.size())
