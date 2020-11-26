@@ -10,6 +10,7 @@ int Point::x() const { return posX; }
 
 int Point::y() const { return posY; }
 
+// reflect point across the line x = y
 Point Point::reflection() const {
 	return Point(posY, posX);
 }
@@ -88,6 +89,7 @@ int Rectangle::height() const { return recHeight; }
 
 Position Rectangle::pos() const { return recPos; }
 
+// reflect rectangle across the line x = y
 Rectangle Rectangle::reflection() const {
 	// const Point reflection = recPos.reflection();
 	// Position reflectionPos(reflection);
@@ -118,6 +120,7 @@ Rectangle Rectangle::operator+(const Vector &vector) const {
     return Rectangle(*this) += vector;
 }
 
+// that function check whether its possible to merge horizontally two rectangles
 bool can_merge_horizontally(const Rectangle &rect1, const Rectangle &rect2) {
 	int upperEdge = rect1.pos().y() + rect1.height();
 	int lowerEdge = rect2.pos().y();
@@ -131,6 +134,7 @@ bool can_merge_horizontally(const Rectangle &rect1, const Rectangle &rect2) {
 	return rect1LeftSide == rect2LeftSide;
 }
 
+// that function check whether its possible to merge vertically two rectangles
 bool can_merge_vertically(const Rectangle &rect1, const Rectangle &rect2) {
 	int rightEdge = rect1.pos().x() + rect1.width();
 	int leftEdge = rect2.pos().x();
@@ -144,12 +148,14 @@ bool can_merge_vertically(const Rectangle &rect1, const Rectangle &rect2) {
 	return rect1LowerSide == rect2LowerSide;
 }
 
+// merging horizontally two rectangles
 Rectangle merge_horizontally(const Rectangle &rect1, const Rectangle &rect2) {
 	assert(can_merge_horizontally(rect1, rect2));
 
 	return Rectangle(rect1.recWidth, rect1.recHeight + rect2.recHeight, rect1.recPos);
 }
 
+// merging vertically two rectangles
 Rectangle merge_vertically(const Rectangle &rect1, const Rectangle &rect2) {
 	assert(can_merge_vertically(rect1, rect2));
 
@@ -208,6 +214,7 @@ size_t Rectangles::size() const {
 	return rectangles.size();
 }
 
+// merging horizontally/vertically collection of rectangles
 Rectangle merge_all(const Rectangles &recs) {
 	assert(recs.rectangles.size() != 0);
 

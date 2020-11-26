@@ -21,6 +21,7 @@ class Point {
 
 		int y() const;
 
+		// reflect point across the line x = y
 		Point reflection() const;
 
 		Point &operator=(const Point &rhs) = default;
@@ -101,6 +102,7 @@ class Rectangle {
 
         Position pos() const;
 
+		// reflect rectangle about the line x = y
         Rectangle reflection() const;
 
         int area() const;
@@ -113,11 +115,13 @@ class Rectangle {
 
         Rectangle operator+(const Vector &vector) const;
 
+		// merging horizontally two rectangles
 		friend Rectangle merge_horizontally(
 			const Rectangle &rect1,
 			const Rectangle &rect2
 		);
 
+		// merging vertically two rectangles
 		friend Rectangle merge_vertically(
 			const Rectangle &rect1,
 			const Rectangle &rect2
@@ -168,10 +172,11 @@ class Rectangles {
 
 		size_t size() const;
 
+		// merging horizontally/vertically collection of rectangles
 		friend Rectangle merge_all(const Rectangles &recs);
 };
 
-
+// merging horizontally/vertically collection of rectangles
 Rectangle merge_all(const Rectangles &recs);
 
 
