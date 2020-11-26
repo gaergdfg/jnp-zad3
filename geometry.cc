@@ -4,16 +4,13 @@
 
 /* ======================== POINT ======================== */
 
-Point::Point(const int x, const int y) : posX(x), posY(y) {}
+Point::Point(const int32_t x, const int32_t y) : posX(x), posY(y) {}
+
+Point::~Point() = default;
 
 int Point::x() const { return posX; }
 
 int Point::y() const { return posY; }
-
-// reflect point across the line x = y
-Point Point::reflection() const {
-	return Point(posY, posX);
-}
 
 bool Point::operator==(const Point &other) const {
 	return posX == other.posX && posY == other.posY;
@@ -22,13 +19,16 @@ bool Point::operator==(const Point &other) const {
 
 /* ======================== POSITION ======================== */
 
-Position::Position(const Point &point) : Point(point) {}
-
-Position::Position(Vector &vector) : Point(vector.x(), vector.y()) {}
+Position::Position(const Vector &vector) : Point(vector.x(), vector.y()) {}
 
 const Position &Position::origin() {
 	const static Position *origin = new Position(0, 0);
 	return *origin;
+}
+
+// reflect position across the line x = y
+Position Position::reflection() const {
+	return Position(posY, posX);
 }
 
 Position &Position::operator+=(const Vector &vector) {
@@ -45,7 +45,12 @@ Position Position::operator+(const Vector &vector) const {
 
 /* ======================== VECTOR ======================== */
 
-Vector::Vector(Position &pos) : Point(pos.x(), pos.y()) {}
+Vector::Vector(const Position &pos) : Point(pos.x(), pos.y()) {}
+
+// reflect vector across the line x = y
+Vector Vector::reflection() const {
+	return Vector(posY, posX);
+}
 
 Vector &Vector::operator+=(const Vector &other) {
 	posX += other.posX;
@@ -73,12 +78,12 @@ Rectangles Vector::operator+(const Rectangles &recs) const {
 
 /* ======================== RECTANGLE ======================== */
 
-Rectangle::Rectangle(const int width, const int height, const Position pos)
+Rectangle::Rectangle(const int32_t width, const int32_t height, const Position pos)
 	: recWidth(width), recHeight(height), recPos(pos) {
     assert(width > 0 && height > 0);
 }
 
-Rectangle::Rectangle(const int width, const int height)
+Rectangle::Rectangle(const int32_t width, const int32_t height)
 	: recWidth(width), recHeight(height), recPos(Position(0, 0)) {
     assert(width > 0 && height > 0);
 }
@@ -200,13 +205,13 @@ Rectangles Rectangles::operator+(const Vector &vector) const {
 	return result;
 }
 
-Rectangle &Rectangles::operator[](int i) {
+Rectangle &Rectangles::operator[](int32_t i) {
 	assert(i >= 0 && (size_t)i < rectangles.size());
 
 	return rectangles[i];
 }
 
-const Rectangle &Rectangles::operator[](int i) const {
+const Rectangle &Rectangles::operator[](int32_t i) const {
 	assert(i >= 0 && (size_t)i < rectangles.size());
 
 	return rectangles[i];
@@ -235,13 +240,13 @@ Rectangle merge_all(const Rectangles &recs) {
 }
 
 Rectangles operator+(Rectangles &&recs, const Vector &vector) {
-	Rectangles temp = std::move(recs);
-	temp += vector;
-	return temp;
+    Rectangles temp = std::move(recs);
+    temp += vector;
+    return temp;
 }
 
 Rectangles operator+(const Vector &vector, Rectangles &&recs) {
-	Rectangles temp = std::move(recs);
-	temp += vector;
-	return temp;
+    Rectangles temp = std::move(recs);
+    temp += vector;
+    return temp;
 }

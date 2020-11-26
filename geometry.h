@@ -2,6 +2,7 @@
 #define GEOMETRY_H
 #include <initializer_list>
 #include <vector>
+#include <cstdint>
 
 
 class Point {
@@ -11,16 +12,15 @@ class Point {
 	public:
 		Point() = delete;
 
-		Point(const int x, const int y);
+		Point(const int32_t x, const int32_t y);
 
 		Point(const Point &other) = default;
+		
+		virtual ~Point() = 0;
 
 		int x() const;
 
 		int y() const;
-
-		// returns point reflected across the line x = y
-		Point reflection() const;
 
 		Point &operator=(const Point &rhs) = default;
 
@@ -35,15 +35,12 @@ class Position : public Point {
 	public:
 		using Point::Point;
 
-		Position(const Point &);
-
-		explicit Position(Vector &vector);
+		explicit Position(const Vector &vector);
 
 		const static Position &origin();
 
-		Position &operator=(Vector &rhs) = delete;
-
-		Position &operator=(const Vector &rhs) = delete;
+		// returns position reflected across the line x = y
+		Position reflection() const;
 
 		Position &operator+=(const Vector &vector);
 
@@ -61,11 +58,10 @@ class Vector : public Point {
 	public:
 		using Point::Point;
 
-		explicit Vector(Position &pos);
+		explicit Vector(const Position &pos);
 
-		Vector &operator=(Position &rhs) = delete;
-
-		Vector &operator=(const Position &rhs) = delete;
+		// returns vector reflected across the line x = y
+		Vector reflection() const;
 
 		Vector &operator+=(const Vector &other);
 
@@ -83,18 +79,18 @@ class Vector : public Point {
 
 class Rectangle {
     private:
-        int recWidth, recHeight;
+        int32_t recWidth, recHeight;
 
         Position recPos;
 
     public:
         Rectangle() = delete;
 		
-        Rectangle(const int width, const int height, const Position pos);
+        Rectangle(const int32_t width, const int32_t height, const Position pos);
 
-        Rectangle(const int width, const int height);
+        Rectangle(const int32_t width, const int32_t height);
 
-        int width() const;
+        int32_t width() const;
 
 		int height() const;
 
@@ -103,7 +99,7 @@ class Rectangle {
 		// returns rectangle reflected across the line x = y
         Rectangle reflection() const;
 
-        int area() const;
+        int32_t area() const;
 
         bool operator==(const Rectangle &other) const;
 
@@ -152,9 +148,9 @@ class Rectangles {
 
 		Rectangles operator+(const Vector &vector) const;
 
-		Rectangle &operator[](int i);
+		Rectangle &operator[](int32_t i);
 
-		const Rectangle &operator[](int i) const;
+		const Rectangle &operator[](int32_t i) const;
 
 		size_t size() const;
 };
