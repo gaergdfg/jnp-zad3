@@ -3,6 +3,8 @@
 #include <initializer_list>
 #include <vector>
 
+#include <cassert>
+
 
 class Placeholder {
 	protected:
@@ -34,9 +36,9 @@ class Position : public Placeholder {
 	public:
 		using Placeholder::Placeholder;
 
-		explicit Position(Vector &vector);
+		Position(const Placeholder &);
 
-		Position(Placeholder &&placeholder);
+		explicit Position(Vector &vector);
 
 		const static Position &origin();
 
@@ -128,6 +130,18 @@ class Rectangles {
 		std::vector<Rectangle> rectangles;
 
 	public:
+		// Rectangles() = default;
+		// Rectangles(const Rectangles&) {
+		// 	assert(((void)"Used copy constructor", false));
+		// }
+		// Rectangles& operator=(const Rectangles&) {
+		// 	assert(((void)"Used copy assignment", false));
+		// }
+		// Rectangles(Rectangles&&) noexcept = default;
+		// Rectangles& operator=(Rectangles&&) noexcept = default;
+		// ~Rectangles() = default;
+
+
 		Rectangles() = default;
 
 		Rectangles(const Rectangles &) = default;
@@ -145,6 +159,8 @@ class Rectangles {
 		Rectangles &operator+=(const Vector &vector);
 
 		Rectangles operator+(const Vector &vector) const;
+
+		// Rectangles operator+(const Vector &rhs) && = default; // TODO: delete
 
 		Rectangle &operator[](int i);
 

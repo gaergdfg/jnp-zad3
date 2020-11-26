@@ -21,9 +21,10 @@ bool Placeholder::operator==(const Placeholder &other) const {
 
 /* ======================== POSITION ======================== */
 
-Position::Position(Vector &vector) : Placeholder(vector.x(), vector.y()) {}
+Position::Position(const Placeholder &placeholder)
+	: Placeholder(placeholder) {}
 
-Position::Position(Placeholder &&placeholder) : Placeholder(placeholder) {}
+Position::Position(Vector &vector) : Placeholder(vector.x(), vector.y()) {}
 
 const Position &Position::origin() {
 	const static Position *origin = new Position(0, 0);
@@ -89,6 +90,8 @@ int Rectangle::height() const { return recHeight; }
 Position Rectangle::pos() const { return recPos; }
 
 Rectangle Rectangle::reflection() const {
+	// const Placeholder reflection = recPos.reflection();
+	// Position reflectionPos(reflection);
 	return Rectangle(recHeight, recWidth, Position(recPos.reflection()));
 }
 
