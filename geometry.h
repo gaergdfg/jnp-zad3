@@ -6,37 +6,37 @@
 #include <cassert>
 
 
-class Placeholder {
+class Point {
 	protected:
 		int posX, posY;
 	
 	public:
-		Placeholder() = delete;
+		Point() = delete;
 
-		Placeholder(const int x, const int y);
+		Point(const int x, const int y);
 
-		Placeholder(const Placeholder &other) = default;
+		Point(const Point &other) = default;
 
 		int x() const;
 
 		int y() const;
 
-		Placeholder reflection() const;
+		Point reflection() const;
 
-		Placeholder &operator=(const Placeholder &rhs) = default;
+		Point &operator=(const Point &rhs) = default;
 
-		bool operator==(const Placeholder &other) const;
+		bool operator==(const Point &other) const;
 };
 
 
 class Vector;
 
 
-class Position : public Placeholder {
+class Position : public Point {
 	public:
-		using Placeholder::Placeholder;
+		using Point::Point;
 
-		Position(const Placeholder &);
+		Position(const Point &);
 
 		explicit Position(Vector &vector);
 
@@ -58,9 +58,9 @@ class Rectangle;
 class Rectangles;
 
 
-class Vector : public Placeholder {
+class Vector : public Point {
 	public:
-		using Placeholder::Placeholder;
+		using Point::Point;
 
 		explicit Vector(Position &pos);
 

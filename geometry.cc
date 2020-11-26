@@ -2,29 +2,28 @@
 #include <cassert>
 
 
-/* ======================== PLACEHOLDER ======================== */
+/* ======================== POINT ======================== */
 
-Placeholder::Placeholder(const int x, const int y) : posX(x), posY(y) {}
+Point::Point(const int x, const int y) : posX(x), posY(y) {}
 
-int Placeholder::x() const { return posX; }
+int Point::x() const { return posX; }
 
-int Placeholder::y() const { return posY; }
+int Point::y() const { return posY; }
 
-Placeholder Placeholder::reflection() const {
-	return Placeholder(posY, posX);
+Point Point::reflection() const {
+	return Point(posY, posX);
 }
 
-bool Placeholder::operator==(const Placeholder &other) const {
+bool Point::operator==(const Point &other) const {
 	return posX == other.posX && posY == other.posY;
 }
 
 
 /* ======================== POSITION ======================== */
 
-Position::Position(const Placeholder &placeholder)
-	: Placeholder(placeholder) {}
+Position::Position(const Point &Point) : Point(Point) {}
 
-Position::Position(Vector &vector) : Placeholder(vector.x(), vector.y()) {}
+Position::Position(Vector &vector) : Point(vector.x(), vector.y()) {}
 
 const Position &Position::origin() {
 	const static Position *origin = new Position(0, 0);
@@ -45,7 +44,7 @@ Position Position::operator+(const Vector &vector) const {
 
 /* ======================== VECTOR ======================== */
 
-Vector::Vector(Position &pos) : Placeholder(pos.x(), pos.y()) {}
+Vector::Vector(Position &pos) : Point(pos.x(), pos.y()) {}
 
 Vector &Vector::operator+=(const Vector &other) {
 	posX += other.posX;
@@ -90,7 +89,7 @@ int Rectangle::height() const { return recHeight; }
 Position Rectangle::pos() const { return recPos; }
 
 Rectangle Rectangle::reflection() const {
-	// const Placeholder reflection = recPos.reflection();
+	// const Point reflection = recPos.reflection();
 	// Position reflectionPos(reflection);
 	return Rectangle(recHeight, recWidth, Position(recPos.reflection()));
 }
