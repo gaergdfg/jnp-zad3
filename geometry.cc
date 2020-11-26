@@ -22,7 +22,7 @@ bool Point::operator==(const Point &other) const {
 
 /* ======================== POSITION ======================== */
 
-Position::Position(const Point &Point) : Point(Point) {}
+Position::Position(const Point &point) : Point(point) {}
 
 Position::Position(Vector &vector) : Point(vector.x(), vector.y()) {}
 
@@ -91,8 +91,6 @@ Position Rectangle::pos() const { return recPos; }
 
 // reflect rectangle across the line x = y
 Rectangle Rectangle::reflection() const {
-	// const Point reflection = recPos.reflection();
-	// Position reflectionPos(reflection);
 	return Rectangle(recHeight, recWidth, Position(recPos.reflection()));
 }
 
@@ -120,7 +118,8 @@ Rectangle Rectangle::operator+(const Vector &vector) const {
     return Rectangle(*this) += vector;
 }
 
-// that function check whether its possible to merge horizontally two rectangles
+/* returns true if it's possible to merge [rect1] and [rect2] horizontally;
+false otherwise */
 bool can_merge_horizontally(const Rectangle &rect1, const Rectangle &rect2) {
 	int upperEdge = rect1.pos().y() + rect1.height();
 	int lowerEdge = rect2.pos().y();
@@ -134,7 +133,8 @@ bool can_merge_horizontally(const Rectangle &rect1, const Rectangle &rect2) {
 	return rect1LeftSide == rect2LeftSide;
 }
 
-// that function check whether its possible to merge vertically two rectangles
+/* returns true if it's possible to merge [rect1] and [rect2] vertically;
+false otherwise */
 bool can_merge_vertically(const Rectangle &rect1, const Rectangle &rect2) {
 	int rightEdge = rect1.pos().x() + rect1.width();
 	int leftEdge = rect2.pos().x();
@@ -148,14 +148,16 @@ bool can_merge_vertically(const Rectangle &rect1, const Rectangle &rect2) {
 	return rect1LowerSide == rect2LowerSide;
 }
 
-// merging horizontally two rectangles
+/* returns the result of merging [rect1] and [rect2] horizontally;
+exits programm with an non-zero exit code when it's not possible */
 Rectangle merge_horizontally(const Rectangle &rect1, const Rectangle &rect2) {
 	assert(can_merge_horizontally(rect1, rect2));
 
 	return Rectangle(rect1.recWidth, rect1.recHeight + rect2.recHeight, rect1.recPos);
 }
 
-// merging vertically two rectangles
+/* returns the result of merging [rect1] and [rect2] vertically;
+exits programm with an non-zero exit code when it's not possible */
 Rectangle merge_vertically(const Rectangle &rect1, const Rectangle &rect2) {
 	assert(can_merge_vertically(rect1, rect2));
 
@@ -214,19 +216,32 @@ size_t Rectangles::size() const {
 	return rectangles.size();
 }
 
-// merging horizontally/vertically collection of rectangles
+/* returns the result of merging the collection of rectangles [recs];
+exits programm with an non-zero exit code when it's not possible */
 Rectangle merge_all(const Rectangles &recs) {
-	assert(recs.rectangles.size() != 0);
+	assert(recs.size() != 0);
 
-	Rectangle result = recs.rectangles[0];
+	Rectangle result = recs[0];
 
-	for (size_t i = 1; i < recs.rectangles.size(); i++) {
-		if (can_merge_horizontally(result, recs.rectangles[i]))
-			result = merge_horizontally(result, recs.rectangles[i]);
-		else if (can_merge_vertically(result, recs.rectangles[i]))
-			result = merge_vertically(result, recs.rectangles[i]);
+	for (size_t i = 1; i < recs.size(); i++) {
+		if (can_merge_horizontally(result, recs[i]))
+			result = merge_horizontally(result, recs[i]);
+		else if (can_merge_vertically(result, recs[i]))
+			result = merge_vertically(result, recs[i]);
 		else assert(false);
 	}
 
 	return result;
+}
+
+Rectangles operator+(Rectangles &&recs, const Vector &vector) {
+	Rectangles temp = std::move(recs);
+	temp += vector;
+	return temp;
+}
+
+Rectangles operator+(const Vector &vector, Rectangles &&recs) {
+	Rectangles temp = std::move(recs);
+	temp += vector;
+	return temp;
 }

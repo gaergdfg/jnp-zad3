@@ -3,8 +3,6 @@
 #include <initializer_list>
 #include <vector>
 
-#include <cassert>
-
 
 class Point {
 	protected:
@@ -21,7 +19,7 @@ class Point {
 
 		int y() const;
 
-		// reflect point across the line x = y
+		// returns point reflected across the line x = y
 		Point reflection() const;
 
 		Point &operator=(const Point &rhs) = default;
@@ -102,7 +100,7 @@ class Rectangle {
 
         Position pos() const;
 
-		// reflect rectangle about the line x = y
+		// returns rectangle reflected across the line x = y
         Rectangle reflection() const;
 
         int area() const;
@@ -115,13 +113,15 @@ class Rectangle {
 
         Rectangle operator+(const Vector &vector) const;
 
-		// merging horizontally two rectangles
+		/* returns the result of merging [rect1] and [rect2] horizontally;
+		exits programm with an non-zero exit code when it's not possible */
 		friend Rectangle merge_horizontally(
 			const Rectangle &rect1,
 			const Rectangle &rect2
 		);
 
-		// merging vertically two rectangles
+		/* returns the result of merging [rect1] and [rect2] vertically;
+		exits programm with an non-zero exit code when it's not possible */
 		friend Rectangle merge_vertically(
 			const Rectangle &rect1,
 			const Rectangle &rect2
@@ -134,18 +134,6 @@ class Rectangles {
 		std::vector<Rectangle> rectangles;
 
 	public:
-		// Rectangles() = default;
-		// Rectangles(const Rectangles&) {
-		// 	assert(((void)"Used copy constructor", false));
-		// }
-		// Rectangles& operator=(const Rectangles&) {
-		// 	assert(((void)"Used copy assignment", false));
-		// }
-		// Rectangles(Rectangles&&) noexcept = default;
-		// Rectangles& operator=(Rectangles&&) noexcept = default;
-		// ~Rectangles() = default;
-
-
 		Rectangles() = default;
 
 		Rectangles(const Rectangles &) = default;
@@ -164,20 +152,20 @@ class Rectangles {
 
 		Rectangles operator+(const Vector &vector) const;
 
-		// Rectangles operator+(const Vector &rhs) && = default; // TODO: delete
-
 		Rectangle &operator[](int i);
 
 		const Rectangle &operator[](int i) const;
 
 		size_t size() const;
-
-		// merging horizontally/vertically collection of rectangles
-		friend Rectangle merge_all(const Rectangles &recs);
 };
 
-// merging horizontally/vertically collection of rectangles
+/* returns the result of merging the collection of rectangles [recs];
+exits programm with an non-zero exit code when it's not possible */
 Rectangle merge_all(const Rectangles &recs);
+
+Rectangles operator+(Rectangles &&recs, const Vector &vector);
+
+Rectangles operator+(const Vector &vector, Rectangles &&recs);
 
 
 #endif /* GEOMETRY_H */
